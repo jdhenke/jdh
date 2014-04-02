@@ -7,6 +7,9 @@ import (
   "sync"
 )
 
+
+// example where different go routines sleep for different lengths.
+// illustrates use of CheckHang to identify which ones are still going.
 func ExampleCheckHang() {
   var wg sync.WaitGroup
   for i := 0; i < 4; i += 1 {
@@ -21,8 +24,24 @@ func ExampleCheckHang() {
     }(i)
   }
   wg.Wait()
+
+  // Would produce something like this.
+  //
+  // Start: 0
+  // Start: 1
+  // Start: 2
+  // Start: 3
+  // End: 0
+  // End: 1
+  // 	 2 still running...
+  // 	 3 still running...
+  // End: 2
+  // 	 3 still running...
+  // End: 3
 }
 
-func TestExample(t *testing.T) {
+
+
+func TestCheckHang(t *testing.T) {
   ExampleCheckHang()
 }

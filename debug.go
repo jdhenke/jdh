@@ -6,8 +6,8 @@ import (
     "time"
 )
 
-// prints message every second until returned thunk is executed
-// useful for determining what function calls are hanging
+// prints message every second until returned thunk is executed.
+// useful for determining what function calls are hanging.
 func CheckHang(message string, args ...interface{}) func() {
   done := int32(0)
   go func() {

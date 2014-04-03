@@ -4,6 +4,7 @@ import (
     "fmt"
     "sync/atomic"
     "time"
+    "runtime"
 )
 
 // prints message every second until returned thunk is executed.
@@ -21,6 +22,7 @@ func CheckHang(message string, args ...interface{}) func() {
     // loop until done, printing message at each interval
     for atomic.LoadInt32(&done) == 0 {
       fmt.Printf(message, args...)
+      fmt.Printf("\t There are %v live goroutines.\n", runtime.NumGoroutine())
       time.Sleep(1000 * time.Millisecond)
     }
 
